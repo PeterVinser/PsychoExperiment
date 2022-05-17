@@ -1,12 +1,24 @@
 import React from "react";
 import { registration } from "../../constants/constants-registration";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 function Registration() {
     const [checked, setChecked] = React.useState(false);
 
+    const navigate = useNavigate();
+
     function handleChange() {
         setChecked(!checked)
+    }
+
+    function register() {
+
+        addDoc(collection(db, "participants"), {tempo: 100})
+        .then((nameDoc) => {
+            navigate('/quiz', {state: {music: false, participantId: nameDoc.id}});
+        });
     }
 
     return (
@@ -34,11 +46,9 @@ function Registration() {
                         />
                     </label>
                 </div>
-                <Link to="/quiz">
-                    <button disabled={!checked} render>
+                <button disabled={!checked} onClick={register}>
                         Rozwiąż test
-                    </button>
-                </Link>
+                </button>
             </div>
         </div>
     );
