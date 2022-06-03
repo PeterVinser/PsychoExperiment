@@ -4,6 +4,8 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { db } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import { Howl, Howler } from "howler";
+import "./quiz.css"
 
 class Quiz extends Component {
     constructor(props) {
@@ -15,17 +17,51 @@ class Quiz extends Component {
 
         this.timer = 0;
         this.questionStartTime = 0;
-        this.totalTime = 90;
-
-        this.state = {
-            answered: false,
-            problem: quiz.problems[this.index++],
-            submitted: false,
-            seconds: this.totalTime,
-            music: props.location.state.music
-        };
+        this.totalTime = 300;
+        
+        if (this.index + 1 < quiz.problems.length) {   
+            this.state = {
+                answered: false,
+                problem: quiz.problems[this.index++],
+                submitted: false,
+                seconds: this.totalTime,
+                music: props.location.state.music
+            };
+        } else {
+            this.state = {
+                music: props.location.state.music
+            };
+            this.submitAnswers();
+        }
 
         this.participantId = props.location.state.participantId;
+        this.tempo = props.location.state.tempo;
+
+        this.sound = null;
+
+        if (this.state.music) {
+            var song;
+            switch(this.tempo) {
+                case 80:
+                    song = quiz.songs[0].sound;
+                    break;
+                case 120: 
+                    song = quiz.songs[1].sound;
+                    break;
+                case 180: 
+                    song = quiz.songs[2].sound;
+                    break;
+                default:
+                    console.log('No file available');
+            }
+
+            if (song != null) {
+                this.sound = new Howl({
+                    src: song,
+                    html5: false
+                });
+            }
+        }
 
         this.startTimer = this.startTimer.bind(this);
         this.countDown = this.countDown.bind(this);
@@ -35,8 +71,25 @@ class Quiz extends Component {
         this.answerSubmit = this.answerSubmit.bind(this);
     }
 
+    soundPlay(sound) {
+        if (sound != null) {
+            sound.play();    
+        }
+        Howler.volume(0.5);
+    }
+
+    soundPause(sound) {
+        if (sound != null) {
+            sound.fade(1, 0, 1000);
+        }
+    }
+
     componentDidMount() {
         this.startTimer();
+        
+        if (this.state.music) {
+            this.soundPlay(this.sound);
+        }
     }
 
     startTimer() {
@@ -94,11 +147,13 @@ class Quiz extends Component {
             answer
         });
 
-        this.index++;
-
-        this.setState({
-            problem: quiz.problems[this.index++]
-        });
+        if (this.index + 1 < quiz.problems.length) { 
+            this.setState({
+                problem: quiz.problems[this.index++]
+            });
+        } else {
+            this.submitAnswers();
+        }
 
         this.setState({
             answered: false
@@ -126,15 +181,12 @@ class Quiz extends Component {
             path = "/intermission";
         }
 
-        console.log(data);
+        updateDoc(doc(db, "participants", this.participantId), data);
 
-        updateDoc(doc(db, "participants", this.participantId), data)
-        .then((doc) => {
-            console.log(doc);
-        });
+        this.soundPause(this.sound);
 
         return (
-            <Navigate to={path} state={{participantId: this.participantId, index: this.index}}/>
+            <Navigate to={path} state={{participantId: this.participantId, index: this.index, tempo: this.tempo}}/>
         );
     }
 
@@ -152,7 +204,7 @@ class Quiz extends Component {
                 </p>
                 <form onSubmit={this.answerSubmit}>
                     {problem.answers.map((answer) => (
-                        <div key={answer.charAt(0)}>
+                        <div className="answer" key={answer.charAt(0)}>
                             <label>
                                 <input 
                                     type="radio" 
@@ -163,8 +215,8 @@ class Quiz extends Component {
                             </label>
                         </div>
                     ))}
-                <div>
-                    <button disabled={!this.state.answered} type="submit">
+                <div className="button-wrapper">
+                    <button className="button" disabled={!this.state.answered} type="submit">
                         Dalej
                     </button>
                 </div>
@@ -176,10 +228,10 @@ class Quiz extends Component {
     render() {
         return (
             <div>
-                <div>
+                <div className="timer">
                     Pozostały czas: {this.displayTime(this.state.seconds)}
                 </div>
-                <div>
+                <div className="problem">
                     {this.showProblem(this.state.problem)}
                 </div>
             </div>

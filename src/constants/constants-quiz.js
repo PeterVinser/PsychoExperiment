@@ -1,9 +1,27 @@
+import lowest from "../music/sonata_80bpm.mp3";
+import medium from "../music/sonata_120bpm.mp3";
+import highest from "../music/sonata_180bpm.mp3";
+
 export const quiz = {
+    songs: [
+        {
+            sound: lowest,
+            tempo: 80
+        },
+        {
+            sound: medium,
+            tempo: 120
+        },
+        {
+            sound: highest,
+            tempo: 180
+        }
+    ],
     problems: [
         {
             id: 1,
             content: "Odległość w linii prostej pomiędzy Warszawą a Rio de Janeiro wynosi 10 419 km.",
-            question: "Dokończ zdanie. Zaznacz właściwą odpowiedź spośród podanych." +
+            question: "Dokończ zdanie. Zaznacz właściwą odpowiedź spośród podanych. " +
                         "Liczba 10 419 po zaokrągleniu do jedności tysięcy wynosi:",
             answers: [
                 "A. 10 000",
@@ -16,7 +34,7 @@ export const quiz = {
         {
             id: 2,
             content: "Konkurs matematyczny trwa 1 godzinę i 15 minut. Każdy uczestnik ma do rozwiązania 30 zadań.",
-            question: "Gdyby uczestnik konkursu przeznaczył na rozwiązanie każdego zadania taką samą ilość" +
+            question: "Gdyby uczestnik konkursu przeznaczył na rozwiązanie każdego zadania taką samą ilość " +
                         "czasu, to jedno zadanie rozwiązywałby przez :",
             answers: [
                 "A.  4 minuty",
@@ -28,9 +46,9 @@ export const quiz = {
         },
         {
             id: 3,
-            content: "Jacek odczytywał temperaturę powietrza. W piątek wieczorem termometr wskazywał –3 stopnie Celsjusza. Następnego dnia rano temperatura była o 2 stopnie Celsjusza niższa niż w piątek wieczorem, a od rana do" +
+            content: "Jacek odczytywał temperaturę powietrza. W piątek wieczorem termometr wskazywał -3 stopnie Celsjusza. Następnego dnia rano temperatura była o 2 stopnie Celsjusza niższa niż w piątek wieczorem, a od rana do " +
                         "południa w sobotę wzrosła o 4 stopnie Celsjusza. ",
-            question: "Jaką temperaturę Jacek odczytał w sobotę w południe? Wybierz właściwą odpowiedź" +
+            question: "Jaką temperaturę Jacek odczytał w sobotę w południe? Wybierz właściwą odpowiedź " +
                         "spośród podanych. ",
             answers: [
                 "A. -9",
@@ -54,7 +72,7 @@ export const quiz = {
         },
         {
             id: 5,
-            content: "W 2013 roku na ogrzewanie mieszkania pan Michał wydał 2500 zł, a w 2014 roku wydał" +
+            content: "W 2013 roku na ogrzewanie mieszkania pan Michał wydał 2500 zł, a w 2014 roku wydał " +
                         "kwotę o 20% mniejszą.",
             question: "O ile złotych mniej pan Michał wydał na ogrzewanie mieszkania w 2014 roku niż w roku 2013? Wybierz właściwą odpowiedź spośród podanych: ",
             answers: [
@@ -121,7 +139,7 @@ export const quiz = {
         },
         {
             id: 11,
-            content: "Troje rodzeństwa podzieliło się obowiązkami przy obiedzie. Pierwszego dnia Adam nakrywa do stołu, a Basia zmywa naczynia, drugiego dnia Basia nakrywa," + 
+            content: "Troje rodzeństwa podzieliło się obowiązkami przy obiedzie. Pierwszego dnia Adam nakrywa do stołu, a Basia zmywa naczynia, drugiego dnia Basia nakrywa, " + 
                         "Jurek zmywa, trzeciego - Jurek nakrywa, Adam zmywa. W czwartym dniu jest znów tak, jak w pierwszym itd. Jurek nakrywał do stołu we wtorek.",
             question: "Najbliższe zmywanie przypadnie mu ",
             answers: [
@@ -134,7 +152,7 @@ export const quiz = {
         },
         {
             id: 13,
-            content: "Ania ma zapłacić za zakupy 12,70 zl. Dała kasjerce 20 zl.",
+            content: "Ania ma zapłacić za zakupy 12,70 zł. Dała kasjerce 20 zł.",
             question: "Ile najmniej monet kasjerka może wydać Ani?",
             answers: [
                 "A. 4",

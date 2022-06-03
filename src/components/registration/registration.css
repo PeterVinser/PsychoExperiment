@@ -1,0 +1,19 @@
+.container {
+    align-items: center;
+    margin: 5vh;
+    margin-left: 10vh;
+    margin-right: 10vh;
+}
+
+.description {
+    text-align: justify;
+    font-size: 20px;
+}
+
+.form {
+  font-size: 20px;
+}
+
+.button {
+  font-size: medium;
+}

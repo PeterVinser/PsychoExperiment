@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import "./intermission.css";
 
 class Intermission extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class Intermission extends Component {
 
         this.participantId = props.location.state.participantId;
         this.index = props.location.state.index;
+        this.tempo = props.location.state.tempo;
 
         this.startTimer = this.startTimer.bind(this);
         this.countDown = this.countDown.bind(this);
@@ -52,17 +54,21 @@ class Intermission extends Component {
         return(
             <div>
                 {this.state.seconds === 0 && (
-                    <Navigate to="/quiz" state={{music: true, participantId: this.participantId, index: this.index}}/>
-                )}
-                <p>
-                    Pierwsza część badania minęła, za {this.displayTime(this.totalTime)} zapraszamy na część drugą
-                </p>
-                <p>
-                    Częśc druga wymaga słuchania muzyki. Upewnij się, że masz podłączone głośniki
-                </p>
-                <p>
-                    Czas: {this.displayTime(this.state.seconds)}
-                </p>
+                        <Navigate to="/quiz" state={{
+                            music: true, participantId: this.participantId, index: this.index, tempo: this.tempo
+                        }}/>
+                    )}
+                <div className='container'>
+                    <p className='description'>
+                        Pierwsza część badania minęła, za {this.displayTime(this.totalTime)} zapraszamy na część drugą.
+                    </p>
+                    <p className='description'>
+                        Częśc druga wymaga słuchania muzyki. Upewnij się, że masz podłączone głośniki.
+                    </p>
+                    <p className='description'>
+                        Czas do następnej części: {this.displayTime(this.state.seconds)}
+                    </p>
+                </div>
             </div>
         );
     }
